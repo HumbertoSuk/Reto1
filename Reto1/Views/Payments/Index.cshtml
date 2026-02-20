@@ -1,0 +1,91 @@
+﻿@model List<Reto1.Models.Payment>
+
+@{
+    ViewData["Title"] = "Payments";
+}
+
+<h2>Payments</h2>
+
+@if (TempData["Msg"] is string msg && !string.IsNullOrWhiteSpace(msg))
+{
+    <div style="padding:10px; border:1px solid #ddd; margin:10px 0;">
+        @msg
+    </div>
+}
+
+<p>
+    <a asp-action="Create">+ Add payment</a>
+</p>
+
+<form asp-action="BulkDelete" method="post">
+    @Html.AntiForgeryToken()
+
+    <div style="margin-bottom:10px;">
+        <button type="submit" onclick="return confirm('Delete selected payments?');">
+            Delete selected
+        </button>
+    </div>
+
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th style="border-bottom:1px solid #ddd; padding:8px;">
+                    <input type="checkbox" id="checkAll" />
+                </th>
+                <th style="border-bottom:1px solid #ddd; padding:8px;">Date</th>
+                <th style="border-bottom:1px solid #ddd; padding:8px;">Amount</th>
+                <th style="border-bottom:1px solid #ddd; padding:8px;">Merchant</th>
+                <th style="border-bottom:1px solid #ddd; padding:8px;">Category</th>
+                <th style="border-bottom:1px solid #ddd; padding:8px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model is null || Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" style="padding:10px;">No payments yet.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var p in Model)
+                {
+                    <tr>
+                        <td style="border-bottom:1px solid #f0f0f0; padding:8px;">
+                            <input type="checkbox" name="selectedIds" value="@p.Id" class="rowCheck" />
+                        </td>
+                        <td style="border-bottom:1px solid #f0f0f0; padding:8px;">
+                            @p.PaidOn.ToString("yyyy-MM-dd")
+                        </td>
+                        <td style="border-bottom:1px solid #f0f0f0; padding:8px;">
+                            @p.Amount.ToString("0.00")
+                        </td>
+                        <td style="border-bottom:1px solid #f0f0f0; padding:8px;">
+                            @p.Merchant
+                        </td>
+                        <td style="border-bottom:1px solid #f0f0f0; padding:8px;">
+                            @(p.Category ?? "-")
+                        </td>
+                        <td style="border-bottom:1px solid #f0f0f0; padding:8px;">
+                            <a asp-action="Details" asp-route-id="@p.Id">Details</a> |
+                            <a asp-action="Edit" asp-route-id="@p.Id">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@p.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+
+    const checkAll = document.getElementById("checkAll");
+    const rowChecks = document.querySelectorAll(".rowCheck");
+
+    if (checkAll) {
+        checkAll.addEventListener("change", function () {
+            rowChecks.forEach(cb => cb.checked = checkAll.checked);
+        });
+    }
+</script>

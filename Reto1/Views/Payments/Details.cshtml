@@ -1,0 +1,25 @@
+﻿@model Reto1.Models.Payment
+
+@{
+    ViewData["Title"] = "Payment details";
+}
+
+<h2>Payment details</h2>
+
+<div style="margin:10px 0;">
+    <a asp-action="Index">← Back</a>
+</div>
+
+<table style="border-collapse:collapse;">
+    <tr><td style="padding:6px; font-weight:bold;">Id</td><td style="padding:6px;">@Model.Id</td></tr>
+    <tr><td style="padding:6px; font-weight:bold;">Date</td><td style="padding:6px;">@Model.PaidOn.ToString("yyyy-MM-dd")</td></tr>
+    <tr><td style="padding:6px; font-weight:bold;">Amount</td><td style="padding:6px;">@Model.Amount.ToString("0.00")</td></tr>
+    <tr><td style="padding:6px; font-weight:bold;">Merchant</td><td style="padding:6px;">@Model.Merchant</td></tr>
+    <tr><td style="padding:6px; font-weight:bold;">Category</td><td style="padding:6px;">@(Model.Category ?? "-")</td></tr>
+    <tr><td style="padding:6px; font-weight:bold;">Notes</td><td style="padding:6px;">@(Model.Notes ?? "-")</td></tr>
+</table>
+
+<p style="margin-top:10px;">
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+</p>

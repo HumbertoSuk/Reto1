@@ -1,0 +1,24 @@
+﻿@model Reto1.Models.Payment
+
+@{
+    ViewData["Title"] = "Delete payment";
+}
+
+<h2>Delete payment</h2>
+
+<div style="margin:10px 0;">
+    <a asp-action="Index">← Back</a>
+</div>
+
+<p>Are you sure you want to delete this payment?</p>
+
+<ul>
+    <li><b>Date:</b> @Model.PaidOn.ToString("yyyy-MM-dd")</li>
+    <li><b>Amount:</b> @Model.Amount.ToString("0.00")</li>
+    <li><b>Merchant:</b> @Model.Merchant</li>
+</ul>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit">Yes, delete</button>
+</form>
